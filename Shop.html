@@ -3,9 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NIGHTMARE PROTOCOL - DEMONIC ARSENAL</title>
+  <title>Store</title>
   <style>
-    /* ... Previous styles remain the same ... */
+    body {
+      background-color: #000;
+      color: #ff0000;
+      font-family: monospace;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
     .cart-modal {
       display: none;
       position: fixed;
@@ -96,10 +104,38 @@
       text-align: center;
       z-index: 1100;
     }
+
+    .glitch-title {
+      text-align: center;
+      color: #ff0000;
+      text-transform: uppercase;
+      text-shadow: 2px 2px #000;
+    }
+
+    .buy-button {
+      padding: 1rem;
+      background: #ff0000;
+      color: black;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .buy-button:hover {
+      background: #cc0000;
+    }
+
   </style>
 </head>
 <body>
-<!-- ... Previous HTML structure ... -->
+
+<!-- Example Product Buttons -->
+<div style="padding: 20px;">
+  <h1 class="glitch-title">Welcome to Demonic Arsenal</h1>
+  <button class="buy-button">Buy Demon Blade</button>
+  <button class="buy-button">Buy Soul Collector</button>
+  <button class="buy-button">Buy Hellfire Pack</button>
+</div>
 
 <!-- Cart Modal -->
 <div class="cart-modal">
@@ -168,8 +204,6 @@
     const cartItems = document.getElementById('cart-items');
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-    cartDisplay.textContent = `Cart: ${cart.reduce((sum, item) => sum + item.quantity, 0)}`;
-
     cartItems.innerHTML = cart.map(item => `
                 <div class="cart-item">
                     <span>${item.name}</span>
@@ -227,20 +261,6 @@
       hideCartModal();
     }
   });
-
-  // Blood drip animation
-  function createBloodDrip() {
-    const drip = document.createElement('div');
-    drip.className = 'blood-drip';
-    drip.style.left = Math.random() * window.innerWidth + 'px';
-    document.body.appendChild(drip);
-
-    setTimeout(() => {
-      drip.remove();
-    }, 3000);
-  }
-
-  setInterval(createBloodDrip, 500);
 </script>
 </body>
 </html>
