@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Last Survivor in Earth</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #ff0000;
+      font-family: monospace;
+      overflow-x: hidden;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.7));
+    }
+
+    .glitch-title {
+      font-size: 4rem;
+      text-transform: uppercase;
+      text-shadow: 2px 2px #ff0000, -2px -2px #0000ff;
+      animation: glitch 1s infinite;
+      margin: 2rem 0;
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0) }
+      20% { transform: translate(-2px, 2px) }
+      40% { transform: translate(-2px, -2px) }
+      60% { transform: translate(2px, 2px) }
+      80% { transform: translate(2px, -2px) }
+      100% { transform: translate(0) }
+    }
+
+    .description {
+      max-width: 600px;
+      text-align: center;
+      margin: 2rem;
+      font-size: 1.2rem;
+      color: #ffffff;
+      text-shadow: 0 0 10px #ff0000;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 2rem;
+    }
+
+    .button {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      background: transparent;
+      border: 2px solid #ff0000;
+      color: #ff0000;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,0,0,0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .button:hover::before {
+      left: 100%;
+    }
+
+    .button:hover {
+      background: rgba(255,0,0,0.1);
+      text-shadow: 0 0 10px #ff0000;
+      transform: scale(1.05);
+    }
+
+    .video-background {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translateX(-50%) translateY(-50%);
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    @media (max-width: 768px) {
+      .glitch-title {
+        font-size: 2rem;
+      }
+
+      .button-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <img src="/api/placeholder/1920/1080" alt="Video placeholder" class="video-background">
+
+  <h1 class="glitch-title">Last Survivor in Earth</h1>
+
+  <div class="description">
+    welcome To Last Surivior on earth.. make sure to not get caught by the demons you need a cross to protect your self and thats all i got of the tips. adn you need to fix generators and need to cut wood to make a crafting table you need rocks and metal and scrap's and string to make traps it stuns the demon for a while like 10 seconds or much i don't known i am just a 13 year old boy who knows how to code like html and C# thanks you for reading this now bye bye..
+  </div>
+
+  <div class="button-container">
+    <a href="Shop.html" class="button">Store</a>
+    <a href="download.html" class="button">Download Now</a>
+    <a href="learn-more.html" class="button">Learn More</a>
+    <a href="credits.html" class="button">Credits</a> <!-- Added Credits button -->
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NIGHTMARE PROTOCOL - DEMONIC ARSENAL</title>
+  <style>
+    /* ... Previous styles remain the same ... */
+    .cart-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cart-content {
+      background: #1a1a1a;
+      padding: 2rem;
+      border: 2px solid #ff0000;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #ff000033;
+    }
+
+    .cart-total {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 2px solid #ff0000;
+      text-align: right;
+      font-size: 1.2rem;
+    }
+
+    .close-cart {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #ff0000;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .quantity-btn {
+      background: #ff0000;
+      color: black;
+      border: none;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+    }
+
+    .checkout-form {
+      margin-top: 2rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .form-input {
+      background: #2a2a2a;
+      border: 1px solid #ff0000;
+      padding: 0.5rem;
+      color: white;
+    }
+
+    .success-message {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1a1a1a;
+      border: 2px solid #ff0000;
+      padding: 2rem;
+      text-align: center;
+      z-index: 1100;
+    }
+  </style>
+</head>
+<body>
+<!-- ... Previous HTML structure ... -->
+
+<!-- Cart Modal -->
+<div class="cart-modal">
+  <div class="cart-content">
+    <button class="close-cart">×</button>
+    <h2 class="glitch-title" style="font-size: 1.5rem;">Your Arsenal</h2>
+    <div id="cart-items">
+      <!-- Cart items will be dynamically added here -->
+    </div>
+    <div class="cart-total">
+      Total: <span id="cart-total">$0.00</span>
+    </div>
+    <form id="checkout-form" class="checkout-form">
+      <input type="text" class="form-input" placeholder="Full Name" required>
+      <input type="email" class="form-input" placeholder="Email" required>
+      <input type="text" class="form-input" placeholder="Card Number" required>
+      <div style="display: flex; gap: 1rem;">
+        <input type="text" class="form-input" placeholder="MM/YY" required>
+        <input type="text" class="form-input" placeholder="CVV" required>
+      </div>
+      <button type="submit" class="buy-button">Complete Purchase</button>
+    </form>
+  </div>
+</div>
+
+<!-- Success Message -->
+<div class="success-message">
+  <h2>Purchase Complete!</h2>
+  <p>Your arsenal has been enhanced with dark power.</p>
+  <button class="buy-button" onclick="closeSuccessMessage()">Continue</button>
+</div>
+
+<script>
+  // Cart functionality
+  let cart = [];
+  const cartModal = document.querySelector('.cart-modal');
+  const cartDisplay = document.querySelector('.cart-count');
+  const successMessage = document.querySelector('.success-message');
+
+  // Product data
+  const products = [
+    { id: 1, name: 'Demon Blade', price: 29.99 },
+    { id: 2, name: 'Soul Collector', price: 39.99 },
+    { id: 3, name: 'Hellfire Pack', price: 49.99 }
+  ];
+
+  // Add to cart
+  document.querySelectorAll('.buy-button').forEach((button, index) => {
+    button.addEventListener('click', () => {
+      const product = products[index];
+      const existingItem = cart.find(item => item.id === product.id);
+
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      updateCartDisplay();
+      showCartModal();
+    });
+  });
+
+  // Update cart display
+  function updateCartDisplay() {
+    const cartItems = document.getElementById('cart-items');
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+    cartDisplay.textContent = `Cart: ${cart.reduce((sum, item) => sum + item.quantity, 0)}`;
+
+    cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                </div>
+            `).join('');
+
+    document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+  }
+
+  // Update quantity
+  function updateQuantity(productId, change) {
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+      item.quantity += change;
+      if (item.quantity <= 0) {
+        cart = cart.filter(item => item.id !== productId);
+      }
+      updateCartDisplay();
+    }
+  }
+
+  // Show/hide cart modal
+  function showCartModal() {
+    cartModal.style.display = 'flex';
+  }
+
+  function hideCartModal() {
+    cartModal.style.display = 'none';
+  }
+
+  document.querySelector('.close-cart').addEventListener('click', hideCartModal);
+
+  // Checkout form submission
+  document.getElementById('checkout-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    hideCartModal();
+    successMessage.style.display = 'block';
+    cart = [];
+    updateCartDisplay();
+  });
+
+  function closeSuccessMessage() {
+    successMessage.style.display = 'none';
+  }
+
+  // Click anywhere outside the cart modal to close it
+  cartModal.addEventListener('click', (e) => {
+    if (e.target === cartModal) {
+      hideCartModal();
+    }
+  });
+
+  // Blood drip animation
+  function createBloodDrip() {
+    const drip = document.createElement('div');
+    drip.className = 'blood-drip';
+    drip.style.left = Math.random() * window.innerWidth + 'px';
+    document.body.appendChild(drip);
+
+    setTimeout(() => {
+      drip.remove();
+    }, 3000);
+  }
+
+  setInterval(createBloodDrip, 500);
+</script>
+</body>
+</html>
